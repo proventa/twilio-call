@@ -76,7 +76,7 @@ if [ -z "$MSG" ]; then usage "No content for the call was read from STDIN."; fi;
 for PHONE in "${@:$OPTIND}"; do
 	echo -n "Calling $PHONE from $CALLERID..."
 	# initiate a curl request to the Twilio REST API, to begin a phone call to that number
-  RESPONSE=`curl -fSs -u "$ACCOUNTSID:$AUTHTOKEN" --data-urlencode "Caller=$CALLERID" --data-urlencode "Called=$PHONE" --data-urlencode "Url=http://twimlets.com/message?Message=$MSG" "https://api.twilio.com/2010-04-01/Accounts/$ACCOUNTSID/Calls" 2>&1`
+  RESPONSE=`curl -fSs -u "$ACCOUNTSID:$AUTHTOKEN" --data-urlencode "Caller=$CALLERID" --data-urlencode "Called=$PHONE" -d "Url=http://twimlets.com/message?Message=$MSG" "https://api.twilio.com/2010-04-01/Accounts/$ACCOUNTSID/Calls" 2>&1`
 	if [ $? -gt 0 ]; then echo "Failed to call $PHONE: $RESPONSE"
 	else echo "done"
 	fi
